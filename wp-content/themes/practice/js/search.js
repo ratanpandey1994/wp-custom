@@ -60,6 +60,9 @@ class Search {
                         ${results.programs.length ? '</ul>' : ''}
 
                         <h2  class="search-overlay__section-title">Professors</h2>
+                        ${results.professors.length ? '<ul class="professors-cards">' : `<p>No professors match that search.</p>`}
+                        ${results.professors.map(item => `<li><a href="${item.permalink}">${item.title}</a> </li>`).join("")}
+                        ${results.professors.length ? '</ul>' : ''}
 
                     </div>
                     <div class="one-third">
