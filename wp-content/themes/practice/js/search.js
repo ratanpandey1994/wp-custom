@@ -60,8 +60,16 @@ class Search {
                         ${results.programs.length ? '</ul>' : ''}
 
                         <h2  class="search-overlay__section-title">Professors</h2>
-                        ${results.professors.length ? '<ul class="professors-cards">' : `<p>No professors match that search.</p>`}
-                        ${results.professors.map(item => `<li><a href="${item.permalink}">${item.title}</a> </li>`).join("")}
+                        ${results.professors.length ? '<ul class="professor-cards">' : `<p>No professors match that search.</p>`}
+                        ${results.professors.map(item => `
+                            <li class="professor-card__list-item">
+                                <a class="professor-card" href="${item.permalink}">
+                                    <?php echo get_the_title($program); ?>
+                                    <img class="professor-card__image" src="${item.image}">
+                                    <span class="professor-card__name">${item.title}</span>
+                                </a>
+                            </li>
+                        `).join("")}
                         ${results.professors.length ? '</ul>' : ''}
 
                     </div>
@@ -72,7 +80,26 @@ class Search {
                         ${results.campuses.length ? '</ul>' : ''}
 
                         <h2  class="search-overlay__section-title">Events</h2>
-
+                         ${results.events.length ? '<ul class="link-list min-list">' : `<p>No events match that search. <a href="${mainData.root_url}/events">View all Events</a></p>`}
+                        ${results.events.map(item => `
+                            <div class="event-summary">
+                                <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
+                                    <span class="event-summary__month"><?php
+                                    $eventDate = new DateTime(get_field('event_date'));
+                                    echo $eventDate->format('M');
+                                    ?></span>
+                                    <span class="event-summary__day"><?php echo $eventDate->format('d');  ?></span>
+                                </a>
+                                <div class="event-summary__content">
+                                    <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                                    <p><?php if(has_excerpt()){
+                                    echo get_the_excerpt();
+                                    }else {
+                                    echo wp_trim_words(get_the_content(), 20);
+                                    } ?>  <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
+                                </div>
+                            </div>
+                        `).join("")}
                     </div>
                 </div>
             `);
